@@ -132,12 +132,6 @@ Discarded input sections
                 0x00000000       0xc2 main.o
  .text.readAbsAltitude
                 0x00000000       0x3e main.o
- .text          0x00000000        0x0 main1.o
- .data          0x00000000        0x0 main1.o
- .bss           0x00000000        0x0 main1.o
- .debug_line    0x00000000        0x0 main1.o
- .debug_str     0x00000000      0x105 main1.o
- .comment       0x00000000       0x31 main1.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a(addsf3.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a(addsf3.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a(addsf3.o)
@@ -466,7 +460,6 @@ Address of section .data set to 0x800100
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.150/gcc/dev/atmega328p/avr5/crtatmega328p.o
 LOAD i2cmaster.o
 LOAD main.o
-LOAD main1.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libm.a
 END GROUP
