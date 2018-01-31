@@ -235,7 +235,8 @@ uint8_t connect(uint8_t destinationIP[4],uint16_t destinationPort, uint16_t loca
     wiz5200Write(S0_DPORT+1,(destinationPort&0x00FF));
 
     wiz5200Write(S0_CR,CR_OPEN);                 //Abrimos o socket
-    while(wiz5200Read(S0_SR)!=SOCK_INIT);
+    while(wiz5200Read(S0_SR)!=SOCK_INIT)
+		serialSendInt(wiz5200Read(S0_SR), HEX,1);
 
     wiz5200Write(S0_CR,CR_CONNECT);              //Tentamos conectar ao servidor
 
@@ -246,7 +247,7 @@ uint8_t connect(uint8_t destinationIP[4],uint16_t destinationPort, uint16_t loca
         wiz5200Write(S0_CR,CR_OPEN);
         while(wiz5200Read(S0_SR)!=SOCK_INIT);
         wiz5200Write(S0_CR,CR_CONNECT);
-        _delay_ms(50);
+        _delay_ms(150);
         status=wiz5200Read(S0_SR);
         serialSendInt(x,DEC,1);
         if(x>99){

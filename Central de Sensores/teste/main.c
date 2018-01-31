@@ -18,8 +18,8 @@
 #include "DHT22.h"
 #include "BMP085.h"
 
-uint8_t mac[6]=    {0x48,0x22,0x22,0x10,0x00,0x40};
-uint8_t ip[4]=     {10,1,100,113};
+uint8_t mac[6]=    {0x48,0x22,0x22,0x10,0x20,0x40};
+uint8_t ip[4]=     {10,1,100,222};
 uint8_t gtw[4]=    {10,1,100,200};
 uint8_t server[4]= {10,1,100,200};
 uint8_t submask[4]={255,255,255,0};
@@ -27,11 +27,11 @@ uint16_t port=8080;
 char buffer[MAX_BUF];
 char bufferTemp[10]="";
 char ipString[13] = "";
-char token[5][16] = { "5a6604559b3f38",		// Temperatura DHT22
-					  "5a660476cec889",		// Umidade DHT22
-					  "5a6604841c62610",	// Pressao BMP085
-					  "5a66049763a3911",	// Temperatura BMP085
-					  "5a66055576b2612"		// Altitude BMP085
+char token[5][16] = { "5a6604559b3f38",
+					  "5a660476cec889",
+					  "5a6604841c62610",
+					  "5a66049763a3911",
+					  "5a66055576b2612"
 					};
 uint16_t size;
 
@@ -56,7 +56,7 @@ int main(void){
     }else{
         serialStringLN("ERRO NO DHT22");
     }
-	
+	/*
 	if(!begin(ULTRAHIGHRES)) {
 		_delay_ms(200);
 		serialStringLN("BMP085 Iniciado");
@@ -71,7 +71,9 @@ int main(void){
 		serialString("Altitude: ");
 		serialSendInt(readAbsAltitude(),DEC,0);
 		serialStringLN("m");
-	}
+	} else {
+		serialStringLN("ERRO NO BMP085");
+	}*/
 
     spiStart(SPICLOCKPRESCALER4);
     serialStringLN("SPI iniciado");
@@ -82,11 +84,12 @@ int main(void){
 	sprintf(ipString, "%d.%d.%d.%d",ip[0],ip[1],ip[2],ip[3]);
 
     for(;;){
-        //port++;
-		dhtRead();
-        if(connect(server,SERVER_PORT,port)){
+        
+		serialStringLN("Entrou no for");
+        if(connect(server,SERVER_PORT,port)) {
 			// Temperatura DHT22
-			
+			//dhtRead();
+			serialStringLN("temp dht");
             strcat(buffer,"POST /API/dados/real/");
 			strcat(buffer, token[0]);
 			strcat(buffer, "?valor=");
@@ -112,15 +115,15 @@ int main(void){
             serialStringLN("Erro de conexão em execução");
             disconnect();
         }
-		_delay_ms(2000);
-		//dhtRead();
+		_delay_ms(5000);
 		if (connect(server,SERVER_PORT,port)) {
 			// Umidade DHT22
-			
+			//dhtRead();
+			serialStringLN("Um dht");
 			strcat(buffer,"POST /API/dados/real/");
 			strcat(buffer, token[1]);
 			strcat(buffer, "?valor=");
-			sprintf(bufferTemp,"%d.%d",humidity()/10, humidity()%10);
+			sprintf(bufferTemp,"%d.%d",humidity(),((humidity() - ((int) humidity()))*10) );
 			strcat(buffer,bufferTemp);
 			strcat(buffer," HTTP/1.1\r\n");
 			strcat(buffer,"Host: ");
@@ -142,10 +145,10 @@ int main(void){
 			serialStringLN("Erro de conexão em execução");
 			disconnect();
 		}
-		_delay_ms(2000);
-		
+		_delay_ms(5000);/*
 		if(connect(server,SERVER_PORT,port)) {
 			// Pressão BMP085
+			serialStringLN("press bmp");
 			strcat(buffer,"POST /API/dados/real/");
 			strcat(buffer, token[2]);
 			strcat(buffer, "?valor=");
@@ -171,10 +174,10 @@ int main(void){
 			serialStringLN("Erro de conexão em execução");
 			disconnect();
 		}
-		_delay_ms(2000);
-		
+		_delay_ms(5000);
 		if(connect(server,SERVER_PORT,port)) {
 			// Temperatura BMP85
+			serialStringLN("temp bmp");
 			strcat(buffer,"POST /API/dados/real/");
 			strcat(buffer, token[3]);
 			strcat(buffer, "?valor=");
@@ -200,10 +203,10 @@ int main(void){
 			serialStringLN("Erro de conexão em execução");
 			disconnect();
 		}
-		_delay_ms(2000);
-		
+		_delay_ms(5000);
 		if (connect(server,SERVER_PORT,port)) {
 			// Altitude BMP85
+			serialStringLN("alt bmp");
 			strcat(buffer,"POST /API/dados/real/");
 			strcat(buffer, token[4]);
 			strcat(buffer, "?valor=");
@@ -229,9 +232,7 @@ int main(void){
 			serialStringLN("Erro de conexão em execução");
 			disconnect();
 		}
-	
-		
-        _delay_ms(2000);
+        _delay_ms(5000);*/
         if(port>4000)
             port=100;
     }
